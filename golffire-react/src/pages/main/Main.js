@@ -1,6 +1,5 @@
 import React from "react";
 
-
 function Main() {
   return (
     <div id="Home" style={{height:"800px"}}>
