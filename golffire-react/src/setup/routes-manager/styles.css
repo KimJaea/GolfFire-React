@@ -39,7 +39,3 @@ body {
     align-items: center;
     padding: .25rem;
 }
-
-#nav.a.active{
-    color:red;
-}
