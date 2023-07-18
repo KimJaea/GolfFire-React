@@ -10,7 +10,6 @@ import Accompany from "./pages/accompany/Accompany";
 import Community from './pages/community/Community';
 import Signup from './pages/signup/Signup';
 
-
 import { ChakraProvider } from '@chakra-ui/react'
 
 function App() {
@@ -26,7 +25,7 @@ function App() {
             <Route path="/golffield" element={<Golffield />}/>
             <Route path='/accompany/' element={<Accompany />} />
             <Route path="/community" element={<Community />}/>
-            <Route path="/Signup/" element={<Signup />}/> 
+            <Route path="/Signup/" element={<Signup />}/>
           </Routes>
         </div>
       </BrowserRouter>
