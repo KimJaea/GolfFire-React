@@ -1,11 +1,12 @@
+
 import React, { useState } from "react";
 
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+
 import {
   Button,
-  ButtonGroup,
   FormControl,
   FormLabel,
   Input,
@@ -14,21 +15,23 @@ import {
 import "./Login.css";
 import golfImage from "../../assets/source/icons/golf.png";
 
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const navigate = useNavigate();
 
-  const handleLogin = () => {
+  // 이메일 로그인 함수
+  const handleEmailLogin = () => {
     // 로그인 정보
     const data = {
-      email: email,
+      memberId: email,
       password: password,
     };
 
     // 서버 API 엔드포인트 URL
-    // 추후 실제 서버 URL로 대체 필요
+    // 추후 실제 서버 URL로 대체 필요 !!
     const apiUrl = "http://localhost:8080/members/sign-in";
 
     // Axios를 사용하여 POST 요청 보내기
@@ -36,24 +39,32 @@ const Login = () => {
       .post(apiUrl, data)
       .then((response) => {
         // 서버로부터 받은 정보
-        const { grant_type, access_token, refresh_token } = response.data.token;
+        const access_token = response.data.data.token.accessToken;
+        const refresh_token = response.data.data.token.refreshToken;
+
+        // header에 accesstoken 저장
+        axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
 
         // 쿠키에 정보 저장
-        setCookie("user_email", data.email, { path: "/" });
-        setCookie("access_token", access_token, { path: "/" });
-        setCookie("refresh_token", refresh_token, { path: "/" });
+        setCookie('user_email', data.memberId, { path: '/' });
+        setCookie('access_token', access_token, { path: '/' });
+        setCookie('refresh_token', refresh_token, { path: '/' });
+
+        console.log(response.data); // Debug Code !!
 
         // 로그인 성공 후 Main으로 복귀
         navigate("/");
-
-        // console.log(response.data); // Debug Code
       })
       .catch((error) => {
-        // 로그인 실패를 화면에 표시하는 코드 필요!
+        console.error("Error:", error); // Debug Code !!
 
-        console.error("Error:", error); // Debug Code
+        // 로그인 실패를 화면에 표시하는 코드 필요 !!
       });
   };
+
+  const handleKakaoLogin = () => {
+    console.log("카카오 로그인 시도");
+  }
 
   return (
     <div id="Login">
@@ -103,6 +114,7 @@ const Login = () => {
           </div>
           <div id="box-button">
             <Button
+              onClick={handleEmailLogin}
               style={{
                 height: "2.5rem",
                 width: "100%",
@@ -116,6 +128,7 @@ const Login = () => {
             > 로그인</Button>
 
             <Button
+              onClick={handleKakaoLogin}
               style={{
                 height: "2.5rem",
                 width: "100%",
@@ -130,18 +143,13 @@ const Login = () => {
 
           </div>
           <div id="box-footer">
-            비밀번호 찾기
+            <NavLink to="/FindPassword" >비밀번호 찾기</NavLink>
             <br />
-            <NavLink to="/signup" style={({ isActive, isPending }) => {
-              return {
-                fontWeight: isActive ? "bold" : "",
-              };
-            }}>회원가입 하기</NavLink>
-
+            <NavLink to="/signup">회원가입 하기</NavLink>
           </div>
-
         </div>
       </div>
+
     </div >
   );
 };
