@@ -1,6 +1,7 @@
 import React from "react";
 
 import { ChatIcon } from "@chakra-ui/icons";
+import ChatBot from 'react-simple-chatbot';
 
 // 챗봇
 // import Notifications from "react-push-notification";
@@ -8,24 +9,106 @@ import { ChatIcon } from "@chakra-ui/icons";
 // import SimpleChatBox from "./chatbot/SimpleChatBox";
 // import SimpleForm from "./chatbot/form/SimpleForm";
 
+// function Chatbot() {
+//   return (
+//     <div className="Chatbot">
+//       {/* <div className="chat-widget"></div> */}
+
+//       {/* 챗봇 위젯 동그라미 버튼 */}
+//       <div className="chatbot-widget">
+//         <span className="chatbot-icon">
+//           <ChatIcon />
+//         </span>
+//       </div>
+
+//       {/* <Notifications /> */}
+//       {/* <NotificationComponent /> */}
+//       {/* <SimpleChatBox /> */}
+//       {/* <SimpleForm /> */}
+//     </div>
+//   );
+// }
+
+// export default Chatbot;
+
+
+import { ThemeProvider } from 'styled-components';
+
+const steps = [
+	{
+		id: '0',
+		message: 'Hey Geek!',
+
+		// This calls the next id
+		// i.e. id 1 in this case
+		trigger: '1',
+	}, {
+		id: '1',
+
+		// This message appears in
+		// the bot chat bubble
+		message: 'Please write your username',
+		trigger: '2'
+	}, {
+		id: '2',
+
+		// Here we want the user
+		// to enter input
+		user: true,
+		trigger: '3',
+	}, {
+		id: '3',
+		message: " hi {previousValue}, how can I help you?",
+		trigger: 4
+	}, {
+		id: '4',
+		options: [
+			
+			// When we need to show a number of
+			// options to choose we create alist
+			// like this
+			{ value: 1, label: 'View Courses' },
+			{ value: 2, label: 'Read Articles' },
+
+		],
+		end: true
+	}
+];
+
+// Creating our own theme
+const theme = {
+	background: '#C9FF8F',
+	headerBgColor: '#197B22',
+	headerFontSize: '20px',
+	botBubbleColor: '#0F3789',
+	headerFontColor: 'white',
+	botFontColor: 'white',
+	userBubbleColor: '#FF5733',
+	userFontColor: 'white',
+};
+
+// Set some properties of the bot
+const config = {
+	botAvatar: "img.png",
+	floating: true,
+};
+
 function Chatbot() {
-  return (
-    <div className="Chatbot">
-      {/* <div className="chat-widget"></div> */}
+	return (
+		<div className="Chatbot">
+			<ThemeProvider theme={theme}>
+				<ChatBot
 
-      {/* 챗봇 위젯 동그라미 버튼 */}
-      <div className="chatbot-widget">
-        <span className="chatbot-icon">
-          <ChatIcon />
-        </span>
-      </div>
+					// This appears as the header
+					// text for the chat bot
+					headerTitle="GeekBot"
+					steps={steps}
+					{...config}
 
-      {/* <Notifications /> */}
-      {/* <NotificationComponent /> */}
-      {/* <SimpleChatBox /> */}
-      {/* <SimpleForm /> */}
-    </div>
-  );
+				/>
+			</ThemeProvider>
+		</div>
+	);
 }
 
 export default Chatbot;
