@@ -37,40 +37,41 @@ import { ThemeProvider } from 'styled-components';
 const steps = [
 	{
 		id: '0',
-		message: 'Hey Geek!',
+		message: '안녕하세요 무엇을 도와드릴까요?',
 
 		// This calls the next id
 		// i.e. id 1 in this case
 		trigger: '1',
 	}, {
 		id: '1',
-
-		// This message appears in
-		// the bot chat bubble
-		message: 'Please write your username',
-		trigger: '2'
-	}, {
-		id: '2',
-
-		// Here we want the user
-		// to enter input
-		user: true,
-		trigger: '3',
-	}, {
-		id: '3',
-		message: " hi {previousValue}, how can I help you?",
-		trigger: 4
-	}, {
-		id: '4',
 		options: [
 			
 			// When we need to show a number of
 			// options to choose we create alist
 			// like this
-			{ value: 1, label: 'View Courses' },
-			{ value: 2, label: 'Read Articles' },
+			{ value: 1, label: '동행 구하기', trigger: '2' },
+			{ value: 2, label: '동행 취소하기', trigger:'3' },
+			{ value: 3, label: '대화 종료', trigger:'4'}
 
 		],
+
+		// This message appears in
+		// the bot chat bubble
+		// message: 'Please write your username',
+		// trigger: '2'
+	}, {
+		id: '2',
+		message: "동행 구하는 방법에 대해 안내드리겠습니다. 블라블라 ",
+		// Here we want the user
+		// to enter input
+		// end: true 종료할꺼면 이거 넣어줘야함 
+	}, {
+		id: '3',
+		message: "동행을 취소하고 싶으신가요? 동행을 취소하시려면",
+		trigger: 4
+	}, {
+		id: '4',
+		message: '대화가 종료되었습니다.',
 		end: true
 	}
 ];
@@ -89,7 +90,6 @@ const theme = {
 
 // Set some properties of the bot
 const config = {
-	botAvatar: "img.png",
 	floating: true,
 };
 
@@ -101,7 +101,7 @@ function Chatbot() {
 
 					// This appears as the header
 					// text for the chat bot
-					headerTitle="GeekBot"
+					headerTitle="안내 봇"
 					steps={steps}
 					{...config}
 
