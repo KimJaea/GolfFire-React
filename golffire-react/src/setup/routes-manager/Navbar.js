@@ -15,13 +15,8 @@ import {
     forwardRef,
     IconButton
 } from '@chakra-ui/react'
-
 import { IoMdContact } from 'react-icons/io'
 import { NavLink } from "react-router-dom"
-
-
-import AlertPage from "./alert/AlertPage"
-
 
 function Navbar() {
     const [isActive, setIsActive] = useState(false);
@@ -168,9 +163,6 @@ function Navbar() {
                             </MenuGroup>)}
                         </MenuList>
                     </Menu>
-                </li>
-                <li>
-                    <AlertPage/>
                 </li>
             </ul>
         </nav>
