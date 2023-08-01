@@ -4,6 +4,11 @@ import { NavLink } from "react-router-dom"
 
 import AlertPage from "./alert/AlertPage"
 import { IoMdContact } from 'react-icons/io'
+
+
+import { Avatar, AvatarBadge, AvatarGroup, Hide } from '@chakra-ui/react'
+
+
 import "./styles.css"
 import {
     Menu,
@@ -18,6 +23,10 @@ import {
     forwardRef,
     IconButton
 } from '@chakra-ui/react'
+
+
+
+
 
 function Navbar() {
     const [isActive, setIsActive] = useState(false);
@@ -107,7 +116,15 @@ function Navbar() {
                 </li>
                 <li className="mypagemenu">
                     <Menu>
-                        <MenuButton as={IconButton} icon={<IoMdContact fontSize="30px" />} />
+                        {/* 마이페이지 버튼 아바타로 수정했습니다. */}
+                        <MenuButton>
+                            <Avatar size={"sm"}>
+                                {/* 여기서 bg 값을 알람이 있을때는 빨간색, 없을때는 초록색으로 변경해야 할듯, 그런데 badge클릭시 알림창 뜨게 하는게 생각보다 쉽지 않음  */}
+                                <AvatarBadge boxSize={'1.25rem'} bg={'red'}>
+                                    {/* <AlertPage></AlertPage> */}
+                                </AvatarBadge>
+                            </Avatar>
+                        </MenuButton>
                         <MenuList>
 
                             {/* test code - will delete */}
@@ -169,7 +186,7 @@ function Navbar() {
                     <AlertPage />
                 </li>
             </ul>
-        </nav>
+        </nav >
     );
 };
 
