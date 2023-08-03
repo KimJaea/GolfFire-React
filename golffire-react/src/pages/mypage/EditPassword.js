@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import MyPageNavbar from "./MyPageNavbar";
 import "./MyPage.css";
@@ -95,6 +96,17 @@ function EditPassword() {
                     </button>
                 </div>
             </div>
+=======
+import React from "react";
+import MyPageNavbar from "./MyPageNavbar";
+
+function EditPassword() {
+    return (
+        <div id="EditPassword">
+            EditPassword
+            
+            <MyPageNavbar />
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
         </div >
     );
 }

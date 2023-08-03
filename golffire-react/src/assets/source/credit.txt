@@ -3,8 +3,11 @@ golf
 <a href="https://www.flaticon.com/free-icons/golf" title="golf icons">Golf icons created by Freepik - Flaticon</a>
 no-image
 <a href="https://www.flaticon.com/free-icons/no-photo" title="no-photo icons">No-photo icons created by Those Icons - Flaticon</a>
+<<<<<<< HEAD
 (Edited by us) flag-red, flag-white, flag-black, flag-all
 <a href="https://www.flaticon.com/free-icons/golf" title="golf icons">Golf icons created by Those Icons - Flaticon</a>
+=======
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
 
 [imgs]
 golfball

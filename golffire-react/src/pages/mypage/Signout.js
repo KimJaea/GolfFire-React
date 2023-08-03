@@ -1,5 +1,6 @@
 import React from "react";
 import MyPageNavbar from "./MyPageNavbar";
+<<<<<<< HEAD
 import "./MyPage.css";
 import CryImg from "../../assets/source/mascot/mascot-cry-2.png";
 import axios from "axios";
@@ -65,6 +66,15 @@ function Signout() {
                     </button>
                 </div>
             </div>
+=======
+
+function Signout() {
+    return (
+        <div id="Signout">
+            Signout
+            
+            <MyPageNavbar />
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
         </div >
     );
 }

@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 
+<<<<<<< HEAD
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { setStateStep } from "../../features/signupSlice";
@@ -28,11 +29,39 @@ const SignupInfo = () => {
     console.log("value", value);
     onchange = (e) => setTeeBox(e.target.value);
     console.log("selectedOption", teeBox);
+=======
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Radio,
+  RadioGroup,
+  VStack
+} from "@chakra-ui/react";
+import {
+  EmailIcon
+} from "@chakra-ui/icons";
+
+const SignupInfo = () => {
+  const { state } = useLocation();
+
+  const [image, setImage] = useState(state.image);
+  const [email, setEmail] = useState(state.email);
+  const [password] = useState(state.password);
+  const [nickname, setNickname] = useState(state.nickname);
+  const [introduce, setIntroduce] = useState("");
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleOptionChange = (value) => {
+    setSelectedOption(value);
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
   };
 
   // 닉네임 중복 검사
   const handleCheckNickname = () => {
     console.log("nickname: ", nickname); // Debug !!
+<<<<<<< HEAD
     const data = {
       nickname: nickname,
     };
@@ -51,10 +80,14 @@ const SignupInfo = () => {
         console.error("Error:", error);
       });
   };
+=======
+  }
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
 
   const navigate = useNavigate();
 
   const handleEmailFinish = () => {
+<<<<<<< HEAD
     var referrer = document.referrer;
 
     console.log("이전 페이지 URL: " + referrer);
@@ -72,11 +105,14 @@ const SignupInfo = () => {
     } else {
       level = "더블 플레이어";
     }
+=======
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
     const data = {
       id: email,
       image: image,
       password: password,
       nickname: nickname,
+<<<<<<< HEAD
       introduction: introduce,
       averageScore: averageScore,
       topScore: topScore,
@@ -100,6 +136,20 @@ const SignupInfo = () => {
     console.log("data: ", data);
     // navigate("/");
   };
+=======
+      introduce: introduce,
+      // averageScore: averageScore,
+      // topScore: topScore,
+      // level: level,
+      // teeBox: teeBox,
+      isKakao: false,
+    }
+
+
+    console.log("data: ", data);
+    // navigate("/");
+  }
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
 
   return (
     <div id="Signup">
@@ -126,7 +176,15 @@ const SignupInfo = () => {
 
           <FormControl maxW={"sm"}>
             <FormLabel>닉네임</FormLabel>
+<<<<<<< HEAD
             <Input bg={"white"} value={nickname} onChange={(e) => setNickname(e.target.value)} />
+=======
+            <Input
+              bg={"white"}
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+            />
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
             {/* 사용 가능 여부를 나타내는 안내 문구 필요! */}
           </FormControl>
           <Button
@@ -158,6 +216,7 @@ const SignupInfo = () => {
 
           <FormControl maxW={"sm"}>
             <FormLabel>최고타수</FormLabel>
+<<<<<<< HEAD
             <Input
               placeholder="0"
               bg={"white"}
@@ -171,14 +230,25 @@ const SignupInfo = () => {
               value={averageScore}
               onChange={(e) => setAverageScore(e.target.value)}
             />
+=======
+            <Input placeholder="0" bg={"white"} />
+            <FormLabel>평균타수</FormLabel>
+            <Input placeholder="0" bg={"white"} />
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
           </FormControl>
 
           <RadioGroup value={selectedOption} onChange={handleOptionChange}>
             <VStack spacing={4}>
+<<<<<<< HEAD
               <Radio value="RED">레드티박스 - 여성</Radio>
               <Radio value="WHITE">화이트티박스 - 남성</Radio>
               <Radio value="BLACK">블랙티박스 - 프로</Radio>
               <Radio value="NONE">상관없음 - 비공개</Radio>
+=======
+              <Radio value="option1">레드티박스 - 여성</Radio>
+              <Radio value="option2">화이트티박스 - 남성</Radio>
+              <Radio value="option3">블랙티박스 - 프로</Radio>
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
             </VStack>
           </RadioGroup>
         </div>

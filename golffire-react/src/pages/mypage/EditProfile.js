@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { React, useState } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -34,10 +35,22 @@ function EditProfile() {
       console.error("Error:", error);
     })
   }
+=======
+import React from "react";
+import MyPageNavbar from "./MyPageNavbar";
+
+import { useCookies } from "react-cookie";
+import axios from "axios";
+
+function EditProfile() {
+
+    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
 
     // 사용자 정보 수정 테스트용 코드 - 함소연
     const testPut = () => {
         const data = {
+<<<<<<< HEAD
             nickname: "햄햄햄",
             teeBox: "RED",
             topScore: 80,
@@ -45,11 +58,27 @@ function EditProfile() {
             level: "더블 플레이어",
             image: "banana.jpg",
             introduction: "하이욤"
+=======
+            password: "1234",
+            nickname: "함싸피",
+            teeBox: "RED",
+            topScore: 72,
+            averageScore: 88,
+            level: "보기 플레이어",
+            image: "apple.jpg",
+            introduction: "방가방가"
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
         }
 
         const apiUrl = 'http://localhost:8080/members/update';
         console.log(cookies.access_token);
+<<<<<<< HEAD
         axios.put(apiUrl, data)
+=======
+        axios.put(apiUrl, data, {
+            headers: { 'Authorization': 'Bearer ' + cookies.access_token }
+        })
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
             .then((response) => {
                 console.log(response.data); // 서버에서 반환된 데이터
                 const statusCode = response.status;
@@ -70,7 +99,10 @@ function EditProfile() {
                 }
             });
     }
+<<<<<<< HEAD
     // 토큰 재발급 함수 export 시켜야 함
+=======
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
     const reissueToken = () => {
         console.log('refrshToken:', cookies.refresh_token);
         const apiUrl = 'http://localhost:8080/members/reissue';
@@ -93,6 +125,7 @@ function EditProfile() {
     }
 
     return (
+<<<<<<< HEAD
         <div id="MyPage">
             <MyPageNavbar />
             <div id="EditProfile">
@@ -144,6 +177,12 @@ function EditProfile() {
                     </div>
                 </div>
             </div>
+=======
+        <div id="EditProfile">
+            EditProfile
+
+            <MyPageNavbar />
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
         </div >
     );
 }
