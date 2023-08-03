@@ -1,42 +1,39 @@
-import { ChakraProvider } from '@chakra-ui/react'
-import {
-    FormControl,
-    FormLabel,
-    FormErrorMessage,
-    FormHelperText,
-    HStack,
-    Radio,
-    RadioGroup,
-    Input
-  } from '@chakra-ui/react'
+import React, { useState } from "react";
 
+// Redux
+import { useSelector } from "react-redux";
+
+// Signup Components
+import SignupChoice from "./SignupChoice";
+import SignupEmail1 from "./SignupEmail1";
+import SignupEmail2 from "./SignupEmail2";
+import SignupInfo from "./SignupInfo";
+
+import golfImage from "../../assets/source/icons/golf.png";
+import "./Signup.css";
 
 function Signup() {
+  // Redux
+  const step = useSelector((state) => state.signupFeature.step);
+
   return (
-    <FormControl>
-        <h1>정보 입력</h1>
-        <h3>자신을 소개하는 정보를 입력하세요</h3>
-        {/* 사진 넣는 공간 */}
-        <FormLabel>닉네임</FormLabel>
-        <Input type='nickname' />
-        <FormLabel>자기소개</FormLabel>
-        <Input type='selfintro' />
-        <FormLabel>최고타수</FormLabel>
-        <Input type='bestshot' />
-        <FormLabel>평균타수</FormLabel>
-        <Input type='avgshot' />
-        
-        <FormLabel as='teebox'>선호 티박스</FormLabel>
-        <RadioGroup defaultValue='Redtee'>
-            <HStack spacing='24px'>
-                <Radio value='Redtee'>레드티박스 - 여성</Radio>
-                <Radio value='Whitetee'>화이트티박스 - 남성</Radio>
-                <Radio value='Blacktee'>블랙티박스 - 프로</Radio>
-            </HStack>
-        </RadioGroup>
-        <FormHelperText>프로라면 블랙티박스를 선택하세요.</FormHelperText>
-    </FormControl>
+    <div id="Signup">
+      {/* 기능 공간 */}
+      <div id="signin-func">
+        {step === 1 && <SignupChoice />}
+        {step === 2 && <SignupEmail1 />}
+        {step === 3 && <SignupEmail2 />}
+        {step === 4 && <SignupInfo />}
+      </div>
+
+      {/* 그림 공간 */}
+      <div id="signin-banner">
+        <div id="signin-banner-image">
+          <img src={golfImage} alt="banner-golf-icon" />
+        </div>
+      </div>
+    </div>
   );
-};
+}
 
 export default Signup;

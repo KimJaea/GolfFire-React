@@ -1,6 +1,5 @@
 import React from "react";
 
-
 function Accompany() {
   return (
     <div id="Accompany" style={{height:"800px"}}>
