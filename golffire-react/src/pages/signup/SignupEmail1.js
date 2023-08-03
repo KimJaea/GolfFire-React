@@ -1,4 +1,31 @@
 import React, { useState } from "react";
+<<<<<<< HEAD
+import { NavLink } from "react-router-dom";
+
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import { setStateStep, setStateEmail } from "../../features/signupSlice";
+
+import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import axios from "axios";
+
+const SignupEmail1 = () => {
+  // Redux
+  const dispatch = useDispatch();
+  const stateEmail = useSelector((state) => state.signupFeature.email);
+
+  // 이메일 및 인증번호
+  const [email, setEmail] = useState("");
+  const [userNum, setUserNum] = useState(""); // 사용자 입력 인증번호
+  const [verifyNum, setVerifyNum] = useState("TEST"); // 서버로부터 받은 인증번호
+  const [verified, setVerified] = useState(false);
+
+  // 이메일 가입 여부 확인 함수
+  const handleCheckEmail = () => {
+    const data = {
+      id: email,
+    };
+=======
 
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -19,6 +46,7 @@ const SignupEmail1 = () => {
     const data = {
       id: email
     }
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
     const apiUrl = "http://localhost:8080/members/checkEmail";
 
     axios
@@ -34,40 +62,69 @@ const SignupEmail1 = () => {
       })
       .catch((error) => {
         console.error("Error:", error);
+<<<<<<< HEAD
+      });
+=======
       })
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
   };
 
   // 유효 이메일로 인증번호 송신하는 함수
   const handleSendEmail = (email) => {
     const data = {
+<<<<<<< HEAD
+      id: email,
+    };
+=======
       id: email
     }
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
     const apiUrl = "http://localhost:8080/members/sendEmailVerification";
 
     axios
       .post(apiUrl, data)
       .then((response) => {
+<<<<<<< HEAD
+        setVerifyNum(response.data.data.authNum); // 인증번호
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+=======
         const authNum = response.data.data.authNum; // 인증번호
         verifyNum = response.data.data.authNum;
       })
       .catch((error) => {
         console.error("Error:", error);
       })
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
   };
 
   const handleEmailVerify = () => {
     if (userNum === verifyNum) {
       setVerified(true);
       alert("인증이 완료되었습니다.");
+<<<<<<< HEAD
+      dispatch(setStateEmail(email));
+=======
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
     } else {
       alert("인증번호를 다시 확인해 주세요.");
     }
   };
 
+<<<<<<< HEAD
+  // '다음으로'
+  const handleEmailNext = () => {
+    if (verified) {
+      dispatch(setStateStep(3));
+      // navigate("/signup/email2", { state: { email: email } });
+=======
   // '다음으로' 함수
   const handleEmailNext = () => {
     if (verified) {
       navigate("/signup/email2", { state: { email: email } });
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
     } else {
       alert("이메일 인증을 먼저 마쳐주세요!");
     }
@@ -80,7 +137,11 @@ const SignupEmail1 = () => {
   };
 
   return (
+<<<<<<< HEAD
+    <div id="SignupEmail1">
+=======
     <div id="Signup">
+>>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
       <div id="email1">
         <div className="title">
           <h1>

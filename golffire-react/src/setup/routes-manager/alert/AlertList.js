@@ -1,4 +1,3 @@
-import { PhoneIcon, AddIcon, WarningIcon } from '@chakra-ui/icons'
 import { CloseButton } from '@chakra-ui/react'
 import { Avatar } from '@chakra-ui/react';
 
@@ -10,9 +9,9 @@ function AlertList() {
         <box>
             <Avatar />
             <p>
-                윤싸피님이 [동행] 모집을 개설했습니다. 
+                윤싸피님이 [동행] 모집을 개설했습니다.
             </p>
-            <CloseButton/>
+            <CloseButton />
         </box>
     </div>
 

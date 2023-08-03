@@ -61,6 +61,7 @@ function AlertPage() {
                     </DrawerBody>
 
                     <DrawerFooter>
+
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>

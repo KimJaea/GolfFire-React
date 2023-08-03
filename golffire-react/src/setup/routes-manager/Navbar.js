@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react"
+import { NavLink, useNavigate } from "react-router-dom"
 import { useCookies } from 'react-cookie';
-import { NavLink } from "react-router-dom"
 
-import AlertPage from "./alert/AlertPage"
+import axios from 'axios';
+
+import AlertPage from "./alert/AlertPage";
+
 import { IoMdContact } from 'react-icons/io'
-
-
-import { Avatar, AvatarBadge, AvatarGroup, Hide } from '@chakra-ui/react'
-
 
 import "./styles.css"
 import {
@@ -24,15 +23,14 @@ import {
     IconButton
 } from '@chakra-ui/react'
 
-
-
-
-
 function Navbar() {
     const [isActive, setIsActive] = useState(false);
 
+    const navigate = useNavigate();
+
     // cookie의 user 정보 확인
-    const [cookies] = useCookies(['user']);
+    const [cookies, setCookie] = useCookies(['refreshToken']);
+
     // 로그인 여부를 나타내는 변수, false로 초기화
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -42,6 +40,25 @@ function Navbar() {
         setIsLoggedIn(!!cookies.user);
         // 추후 서버로 token 정보를 보내 유효한지 확인한 뒤 true로 만들기
     }, [cookies]);
+
+    const handleLogout = () => {
+        console.log('cookies.refreshToken:', cookies.refreshToken);
+
+        const apiUrl = 'http://localhost:8080/members/logout'
+        const data = {
+            refreshToken: cookies.refreshToken
+        }
+        axios.post(apiUrl, data)
+            .then(response => {
+                console.log(response);
+                if (response.data.data === "SUCCESS") {
+                    setCookie('refreshToken', cookies.refreshToken, { path: '/', maxAge: 0 });
+                    navigate('/');
+                } else {
+                    alert('Error')
+                }
+            })
+    };
 
     return (
         <nav className="nav">
@@ -116,6 +133,7 @@ function Navbar() {
                 </li>
                 <li className="mypagemenu">
                     <Menu>
+
                         {/* 마이페이지 버튼 아바타로 수정했습니다. */}
                         <MenuButton>
                             <Avatar size={"sm"}>
@@ -138,10 +156,11 @@ function Navbar() {
                                         마이페이지
                                     </NavLink>
                                 </MenuItem>
-                                <MenuItem>친구/채팅</MenuItem>
-                                <MenuDivider />
-                                <MenuItem style={{ color: "gray" }}>로그아웃</MenuItem>
+                                <MenuItem style={{ color: "gray" }} onClick={handleLogout}>
+                                    로그아웃
+                                </MenuItem>
                             </MenuGroup>
+                            <MenuDivider />
                             {/* test code end */}
 
                             {isLoggedIn ? (
