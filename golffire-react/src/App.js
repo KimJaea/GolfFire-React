@@ -11,13 +11,10 @@ import Golffield from "./pages/golffield/Golffield";
 import Accompany from "./pages/accompany/Accompany";
 import Community from "./pages/community/Community";
 
-<<<<<<< HEAD
 // Study
 import CreateRoom from "./pages/study/CreateRoom";
 import CoachingRoom from "./pages/study/CoachingRoom";
 
-=======
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
 // Community
 import FreeBoardList from "./pages/community/FreeBoardList";
 import InquiryList from "./pages/community/InquiryList";
@@ -29,32 +26,17 @@ import FreeBoardDetail from "./pages/community/FreeBoardDetail";
 import KakaoLogin from "./setup/user-auth/KakaoLogin";
 import KakaoSignUp from "./setup/user-auth/KakaoSignUp";
 import Signup from "./pages/signup/Signup";
-<<<<<<< HEAD
-// import SignupEmail1 from "./pages/signup/SignupEmail1";
-// import SignupEmail2 from "./pages/signup/SignupEmail2";
-// import SignupInfo from "./pages/signup/SignupInfo";
 import FindPassword from "./pages/login/FindPassword";
 import Login from "./pages/login/Login";
-=======
-import SignupEmail1 from "./pages/signup/SignupEmail1";
-import SignupEmail2 from "./pages/signup/SignupEmail2";
-import SignupInfo from "./pages/signup/SignupInfo";
-import FindPassword from "./pages/login/FindPassword";
-import Login from "./pages/login/Login";
-import Signout from "./pages/mypage/Signout";
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
 
 // Profile
 import Profile from "./pages/mypage/Profile";
 import EditProfile from "./pages/mypage/EditProfile";
 import EditPassword from "./pages/mypage/EditPassword";
-<<<<<<< HEAD
 import MyAccompany from "./pages/mypage/MyAccompany";
 import MyChat from "./pages/mypage/MyChat";
 import MyFollow from "./pages/mypage/MyFollow";
 import Signout from "./pages/mypage/Signout";
-=======
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
 
 // Error
 import ErrorPage from "./setup/error-manager/ErrorPage";
@@ -92,15 +74,6 @@ function App() {
               {/* 항상 route 가능 */}
               <Route path="/" element={<Main />} />
               <Route path="/signup/" element={<Signup />} />
-<<<<<<< HEAD
-              {/* <Route path="/signup/email1" element={<SignupEmail1 />} /> */}
-              {/* <Route path="/signup/email2" element={<SignupEmail2 />} /> */}
-              {/* <Route path="/signup/info" element={<SignupInfo />} /> */}
-=======
-              <Route path="/signup/email1" element={<SignupEmail1 />} />
-              <Route path="/signup/email2" element={<SignupEmail2 />} />
-              <Route path="/signup/info" element={<SignupInfo />} />
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
               <Route path="/findpassword/" element={<FindPassword />} />
               <Route path="/login/" element={<Login />} />
               <Route path="/golffield/" element={<Golffield />} />
@@ -112,19 +85,12 @@ function App() {
               /> */}
 
               <Route path="/solution/" element={<Solution />} />
-<<<<<<< HEAD
               <Route path="/accompany/" element={<Accompany />} />
 
               {/* Study */}
               <Route path="/studylist/" element={<StudyList />} />
               <Route path="/createroom/" element={<CreateRoom />} />
               <Route path="/coachingroom/" element={<CoachingRoom />} />
-=======
-
-              <Route path="/studylist/" element={<StudyList />} />
-
-              <Route path="/accompany/" element={<Accompany />} />
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
 
               {/* Community */}
               <Route path="/community" element={<Community />} />
@@ -138,12 +104,10 @@ function App() {
               <Route path="/mypage/" element={<Profile />} />
               <Route path="/mypage/editprofile/" element={<EditProfile />} />
               <Route path="/mypage/editpassword/" element={<EditPassword />} />
-<<<<<<< HEAD
               <Route path="/mypage/myaccompany" element={<MyAccompany />} />
               <Route path="/mypage/mychat" element={<MyChat />} />
               <Route path="/mypage/myfollow" element={<MyFollow />} />
-=======
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
+
               <Route path="/mypage/signout/" element={<Signout />} />
 
               {/* Error */}

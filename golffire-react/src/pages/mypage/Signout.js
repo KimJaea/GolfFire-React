@@ -1,6 +1,6 @@
 import React from "react";
 import MyPageNavbar from "./MyPageNavbar";
-<<<<<<< HEAD
+
 import "./MyPage.css";
 import CryImg from "../../assets/source/mascot/mascot-cry-2.png";
 import axios from "axios";
@@ -11,34 +11,34 @@ function Signout() {
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies(['refreshToken']);
     const handleLogout = () => {
-        console.log('cookies.refreshToken:',cookies.refreshToken);
-      
+        console.log('cookies.refreshToken:', cookies.refreshToken);
+
         const apiUrl = 'http://localhost:8080/members/logout'
         const data = {
-            refreshToken : cookies.refreshToken
+            refreshToken: cookies.refreshToken
         }
         axios.post(apiUrl, data)
-        .then(response => {
-            console.log(response);
-            if(response.data.data === "SUCCESS"){
-                setCookie('refreshToken', cookies.refreshToken, {path: '/', maxAge: 0});
-                handleSignout();
-            } else {
-                alert('Error')
-            }
-        })
+            .then(response => {
+                console.log(response);
+                if (response.data.data === "SUCCESS") {
+                    setCookie('refreshToken', cookies.refreshToken, { path: '/', maxAge: 0 });
+                    handleSignout();
+                } else {
+                    alert('Error')
+                }
+            })
     };
     const handleSignout = (e) => {
         console.log("탈퇴하기");
         const apiUrl = 'http://localhost:8080/members/delete'
         axios.delete(apiUrl)
-        .then((response) => {
-            console.log(response);
-            navigate('/');
-        })
-        .catch((error)=>{
-            console.error(error);
-        })
+            .then((response) => {
+                console.log(response);
+                navigate('/');
+            })
+            .catch((error) => {
+                console.error(error);
+            })
     };
 
 
@@ -66,15 +66,7 @@ function Signout() {
                     </button>
                 </div>
             </div>
-=======
 
-function Signout() {
-    return (
-        <div id="Signout">
-            Signout
-            
-            <MyPageNavbar />
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
         </div >
     );
 }

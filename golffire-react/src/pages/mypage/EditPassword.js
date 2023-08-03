@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState } from "react";
 import MyPageNavbar from "./MyPageNavbar";
 import "./MyPage.css";
@@ -33,20 +32,20 @@ function EditPassword() {
         console.log("passCheck: ", passCheck);
         const apiUrl = 'http://localhost:8080/members/updatePassword'
         const data = {
-            passOrigin : passOrigin,
-            passNew : passNew
+            passOrigin: passOrigin,
+            passNew: passNew
         }
         axios.put(apiUrl, data)
-        .then((response) => {
-            console.log(response);
-            if(response.data.data.resultMessage === "SUCCESS"){
-                alert('비밀번호 변경에 성공했습니다.');
-            }
-        })
-        .catch((error) => {
-            console.error(error);
-             alert('비밀번호 변경에 실패했습니다.');
-        })
+            .then((response) => {
+                console.log(response);
+                if (response.data.data.resultMessage === "SUCCESS") {
+                    alert('비밀번호 변경에 성공했습니다.');
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                alert('비밀번호 변경에 실패했습니다.');
+            })
 
     };
 
@@ -96,17 +95,6 @@ function EditPassword() {
                     </button>
                 </div>
             </div>
-=======
-import React from "react";
-import MyPageNavbar from "./MyPageNavbar";
-
-function EditPassword() {
-    return (
-        <div id="EditPassword">
-            EditPassword
-            
-            <MyPageNavbar />
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
         </div >
     );
 }

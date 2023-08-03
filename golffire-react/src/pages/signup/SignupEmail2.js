@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-<<<<<<< HEAD
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 
 // Redux
@@ -17,25 +16,6 @@ const SignupEmail2 = () => {
 
   const { state } = useLocation();
   const [email, setEmail] = useState(stateEmail);
-=======
-import {
-  NavLink,
-  useNavigate,
-  useLocation
-} from "react-router-dom";
-
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input
-} from "@chakra-ui/react";
-import NoImg from "../../assets/source/icons/no-image.png";
-
-const SignupEmail2 = (props) => {
-  const { state } = useLocation();
-  const [email, setEmail] = useState(state.email);
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
   const [password, setPassword] = useState("");
   const [passwordVer, setPasswordVer] = useState("");
 
@@ -47,7 +27,6 @@ const SignupEmail2 = (props) => {
     console.log("passwordVer: ", passwordVer);
 
     if (password === passwordVer) {
-<<<<<<< HEAD
       // navigate("/signup/info", {
       //   state: {
       //     email: email,
@@ -59,16 +38,6 @@ const SignupEmail2 = (props) => {
       // });
       dispatch(setStatePassword(password));
       dispatch(setStateStep(4));
-=======
-      navigate("/signup/info", {
-        state: {
-          email: email,
-          password: password,
-          image: NoImg,
-          nickname: ""
-        }
-      });
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
     } else {
       alert("유효한 비밀번호를 입력해 주세요!");
     }

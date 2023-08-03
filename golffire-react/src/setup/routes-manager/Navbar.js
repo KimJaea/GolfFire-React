@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 import { useCookies } from 'react-cookie';
-
 import axios from 'axios';
 
 import AlertPage from "./alert/AlertPage";
 
 import { IoMdContact } from 'react-icons/io'
+import { Avatar, AvatarBadge, AvatarGroup, Hide } from '@chakra-ui/react'
 
 import "./styles.css"
 import {

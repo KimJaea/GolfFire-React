@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useLocation } from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
 import { useCookies } from "react-cookie";
-=======
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
 import {
     Box, Code,
   } from '@chakra-ui/react';
@@ -15,10 +12,7 @@ const Kakao = (props) => {
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState("");
   const [image, setImage] = useState("");
-<<<<<<< HEAD
   const [cookies, setCookie] = useCookies(['refreshToken']);
-=======
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
 
   let params = new URL(document.URL).searchParams; // get query string
   let CODE = params.get("code");
@@ -91,18 +85,13 @@ const Kakao = (props) => {
         } else{
           console.log("유효한 이메일입니다.");
             // 카카로 로그인 하기
-<<<<<<< HEAD
             handleKaKaoEmailLogin(email);
-=======
-          
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
         }
       })
       .catch((error) => {
         console.error("Error:", error);
       })
     };
-<<<<<<< HEAD
 
     // 로그인
     const handleKaKaoEmailLogin = (email) =>{
@@ -132,8 +121,6 @@ const Kakao = (props) => {
         console.error("Error: ", error);
       })
     }
-=======
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
     }
     
     useEffect(() => {
@@ -144,11 +131,7 @@ const Kakao = (props) => {
     
         <Box>
             <Box maxW="md" mx="auto">
-<<<<<<< HEAD
                 <div>잠시만 기다려 주세요! 로그인 중입니다.</div>
-=======
-                <div>잠시만 기다려 주세요! 회원 가입 중입니다.</div>
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
             </Box>
         </Box> 
     )
