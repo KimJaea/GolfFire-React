@@ -1,19 +1,25 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 
 // Navigation Bar
 import Navbar from "./setup/routes-manager/Navbar";
 import Main from "./pages/main/Main";
 import Solution from "./pages/solution/Solution";
+import Solution_HalfSwing from "./pages/solution/Solution_HalfSwing";
+import Solution_FullSwing from "./pages/solution/Solution_FullSwing";
 import StudyList from "./pages/study/StudyList";
 import Golffield from "./pages/golffield/Golffield";
 import Accompany from "./pages/accompany/Accompany";
 import Community from "./pages/community/Community";
 
 // Study
-import CreateRoom from "./pages/study/CreateRoom";
-import CoachingRoom from "./pages/study/CoachingRoom";
+import CreateCRoom from './pages/study/CreateCRoom';
+import CreateLRoom from './pages/study/CreateLRoom';
+import CoachingRoom from './pages/study/CoachingRoom';
+import LearningRoom from './pages/study/LearningRoom';
+
+//accompany
+import CreateAccompany from "./pages/accompany/CreateAccompany";
 
 // Community
 import FreeBoardList from "./pages/community/FreeBoardList";
@@ -41,23 +47,21 @@ import Signout from "./pages/mypage/Signout";
 // Error
 import ErrorPage from "./setup/error-manager/ErrorPage";
 
+// Redux
+import { useSelector } from "react-redux";
+
 import { ChakraProvider } from "@chakra-ui/react";
 import "./App.css";
+import "../src/assets/css/user.css";
 import "../src/assets/css/common.css";
+import "../src/assets/css/list-container.css";
+import "../src/assets/css/create-container.css";
 
 function App() {
-  // cookie의 user 정보 확인
-  const [cookies] = useCookies(["user"]);
-  // 로그인 여부를 나타내는 변수, false로 초기화
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // 로그인 여부를 확인하여 true로 바꾸는 함수
-  useEffect(() => {
-    // 로그인 정보가 있다면 true, 없다면 false로 만드는 코드
-    setIsLoggedIn(!!cookies.user);
-
-    // 추후 서버로 token 정보를 보내 유효한지 확인한 뒤 true로 만들기
-  }, [cookies]);
+  // Redux
+  // 사용자 정보(userId)로 로그인 여부 판단
+  const userId = useSelector((state) => state.userInfoFeature.userId);
+  const userNickname = useSelector((state) => state.userInfoFeature.userNickname);
 
   return (
     <ChakraProvider>
@@ -71,44 +75,45 @@ function App() {
               <Route path="/Auth/Kakao/Signup/Callback" element={<KakaoSignUp />} />
               <Route path="/Auth/Kakao/Login/Callback" element={<KakaoLogin />} />
 
-              {/* 항상 route 가능 */}
+              {/* 로그인 */}
               <Route path="/" element={<Main />} />
               <Route path="/signup/" element={<Signup />} />
               <Route path="/findpassword/" element={<FindPassword />} />
               <Route path="/login/" element={<Login />} />
               <Route path="/golffield/" element={<Golffield />} />
 
-              {/* 로그인 후 route 가능 */}
-              {/* <Route
-                path="/solution/"
-                element={isLoggedIn ? <Solution /> : <Navigate to="/Login" />}
-              /> */}
-
+              {/* Solution */}
               <Route path="/solution/" element={<Solution />} />
-              <Route path="/accompany/" element={<Accompany />} />
+              <Route path="/solution/halfswing/" element={<Solution_HalfSwing />} />
+              <Route path="/solution/fullswing/" element={<Solution_FullSwing />} />
 
               {/* Study */}
-              <Route path="/studylist/" element={<StudyList />} />
-              <Route path="/createroom/" element={<CreateRoom />} />
-              <Route path="/coachingroom/" element={<CoachingRoom />} />
+              <Route path="/studylist/" element={userId ? <StudyList /> : <Navigate to="/Login" />} />
+              <Route path="/createcroom/" element={userId ? <CreateCRoom /> : <Navigate to="/Login" />} />
+              <Route path="/createlroom/" element={userId ? <CreateLRoom /> : <Navigate to="/Login" />} />
+              <Route path="/coachingroom/" element={userId ? <CoachingRoom /> : <Navigate to="/Login" />} />
+              <Route path="/learningroom/" element={userId ? <LearningRoom /> : <Navigate to="/Login" />} />
+
+              {/* Accompany */}
+              <Route path="/accompany/" element={userId ? <Accompany /> : <Navigate to="/Login" />} />
+              <Route path="/createaccompany/" element={userId ? <CreateAccompany /> : <Navigate to="/Login" />} />
 
               {/* Community */}
               <Route path="/community" element={<Community />} />
-              <Route path="/myeditor" element={<MyEditor />} />
-              <Route path="/freeboardlist" element={<FreeBoardList />} />
-              <Route path="/inquirylist" element={<InquiryList />} />
-              <Route path="/noticelist" element={<NoticeList />} />
+              <Route path="/myeditor/" element={userId ? <MyEditor /> : <Navigate to="/Login" />} />
+              <Route path="/freeboardlist/" element={userId ? <FreeBoardList /> : <Navigate to="/Login" />} />
+              <Route path="/inquirylist/" element={userId ? <InquiryList /> : <Navigate to="/Login" />} />
+              <Route path="/noticelist/" element={userId ? <NoticeList /> : <Navigate to="/Login" />} />
               {/* <Route path="/freeboard/:idx" element={<FreeBoardDetail />} /> */}
 
               {/* Profile */}
-              <Route path="/mypage/" element={<Profile />} />
-              <Route path="/mypage/editprofile/" element={<EditProfile />} />
-              <Route path="/mypage/editpassword/" element={<EditPassword />} />
-              <Route path="/mypage/myaccompany" element={<MyAccompany />} />
-              <Route path="/mypage/mychat" element={<MyChat />} />
-              <Route path="/mypage/myfollow" element={<MyFollow />} />
-
-              <Route path="/mypage/signout/" element={<Signout />} />
+              <Route path="/mypage/info" element={userId ? <Profile /> : <Navigate to="/Login" />} />
+              <Route path="/mypage/info/editprofile/" element={userId ? <EditProfile /> : <Navigate to="/Login" />} />
+              <Route path="/mypage/info/editpassword/" element={userId ? <EditPassword /> : <Navigate to="/Login" />} />
+              <Route path="/mypage/myaccompany" element={userId ? <MyAccompany /> : <Navigate to="/Login" />} />
+              <Route path="/mypage/mychat" element={userId ? <MyChat /> : <Navigate to="/Login" />} />
+              <Route path="/mypage/myfollow" element={userId ? <MyFollow /> : <Navigate to="/Login" />} />
+              <Route path="/mypage/signout/" element={userId ? <Signout /> : <Navigate to="/Login" />} />
 
               {/* Error */}
               <Route path="/error" element={<ErrorPage />} />

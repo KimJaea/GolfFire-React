@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import {
   setStateStep,
   setStateEmail,
+  setStatePassword,
   setStateNickname,
   setStateIsKakao,
 } from "../../features/signupSlice";
@@ -18,7 +19,6 @@ const Kakao = (props) => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-  const [email, setEmail] = useState(""); // Debug
   const [nickname, setNickname] = useState("");
   const [image, setImage] = useState("");
 
@@ -29,12 +29,12 @@ const Kakao = (props) => {
   const data = {
     code: CODE,
   };
-  const apiUrl = "http://localhost:8080/members/code";
+  const apiUrl = process.env.REACT_APP_SERVER_URL + "/api/members/code";
 
   // KAKAO Token 발급
   const grant_type = "authorization_code";
   const client_id = "cd0c9cf0cf49dae9a987aebb769ee0d6"; // REST-API-TOKEN
-  const REDIRECT_URI = "http://localhost:3000/auth/kakao/signup/callback";
+  const REDIRECT_URI = process.env.REACT_APP_SERVER_URL + "/auth/kakao/signup/callback";
   axios
     .post(
       `https://kauth.kakao.com/oauth/token?grant_type=${grant_type}&client_id=${client_id}&redirect_uri=${REDIRECT_URI}&code=${CODE}`,
@@ -71,20 +71,20 @@ const Kakao = (props) => {
       .then((response) => {
         console.log("kakao info ", response);
         console.log(response.data.kakao_account.email);
-        const email = response.data.kakao_account.email;
+        const kakaoData = response.data.kakao_account;
 
-        handleCheckEmail(email);
+        handleCheckEmail(kakaoData);
       })
       .catch((error) => {
         console.error("Error:", error); // Debug Code
       });
 
-    const handleCheckEmail = (email) => {
+    const handleCheckEmail = (kakaoData) => {
       const data = {
-        id: email,
+        id: kakaoData.email,
       };
-      const apiUrl = "http://localhost:8080/members/checkEmail";
-      console.log(email);
+      const apiUrl = process.env.REACT_APP_SERVER_URL + "/api/members/checkEmail";
+      
       axios
         .post(apiUrl, data)
         .then((response) => {
@@ -94,18 +94,12 @@ const Kakao = (props) => {
             navigate("/");
           } else {
             console.log("유효한 이메일입니다.");
-            // SignupInfo 페이지로 회원정보를 가지고 돌아가기
-            // navigate("/signup/info", {
-            //   state: {
-            //     email: email,
-            //     image: image,
-            //     nickname: nickname,
-            //   },
-            // });
-            dispatch(setStateEmail(email));
-            dispatch(setStateNickname(nickname));
+            // Redux
+            dispatch(setStateEmail(kakaoData.email));
+            dispatch(setStateNickname(kakaoData.profile.nickname));
+            dispatch(setStatePassword(1234)); // axios를 위한 test value
             dispatch(setStateIsKakao(true));
-            dispatch(setStateStep(4));
+            dispatch(setStateStep(5));
             navigate("/signup");
           }
         })
