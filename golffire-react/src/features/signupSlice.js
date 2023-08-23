@@ -4,9 +4,13 @@ const initialState = {
   step: 1,
   email: "",
   password: "",
-  profile: "", // delete
   nickname: "",
-  is_kakao: false,
+  profile: "",
+  introduce: "",
+  averageScore: "",
+  topScore: "",
+  teeBox: "",
+  isKakao: false,
 };
 
 const signupSlice = createSlice({
@@ -18,10 +22,6 @@ const signupSlice = createSlice({
     },
     setStateEmail: (state, action) => {
       state.email = action.payload;
-      console.log("action.payload: ", action.payload);
-      console.log("state: ", state);
-      console.log("action: ", action);
-      console.log("changed email: ", state.email);
     },
     setStatePassword: (state, action) => {
       state.password = action.payload;
@@ -29,8 +29,23 @@ const signupSlice = createSlice({
     setStateNickname: (state, action) => {
       state.nickname = action.payload;
     },
+    setStateProfile: (state, action) => {
+      state.profile = action.payload;
+    },
+    setStateIntroduce: (state, action) => {
+      state.introduce = action.payload;
+    },
+    setStateAverageScore: (state, action) => {
+      state.averageScore = action.payload;
+    },
+    setStateTopScore: (state, action) => {
+      state.topScore = action.payload;
+    },
+    setStateTeeBox: (state, action) => {
+      state.teeBox = action.payload;
+    },
     setStateIsKakao: (state, action) => {
-      state.is_kakao = action.payload;
+      state.isKakao = action.payload;
     },
   },
 });
@@ -40,6 +55,11 @@ export const {
   setStateEmail,
   setStatePassword,
   setStateNickname,
+  setStateProfile,
+  setStateIntroduce,
+  setStateAverageScore,
+  setStateTopScore,
+  setStateTeeBox,
   setStateIsKakao,
 } = signupSlice.actions;
 

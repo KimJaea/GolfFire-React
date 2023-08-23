@@ -1,127 +1,158 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import { IoSendSharp } from "react-icons/io5";
+import axios from "axios";
 
 import MyChatBox from "./MyChatBox";
 import OtherChatBox from "./OtherChatBox";
 
+import flagred from "../../../assets/source/icons/flag-red.png";
+import flagwhite from "../../../assets/source/icons/flag-white.png";
+import flagblack from "../../../assets/source/icons/flag-black.png";
+import flagall from "../../../assets/source/icons/flag-all.png";
+
+import SockJS from "sockjs-client";
+import { Stomp } from '@stomp/stompjs';
+
+// Redux
+import { useSelector } from "react-redux";
+import { getNameById } from "../../golffield/ParseGolfId";
+
 function ChatRoom({ props }) {
-    const { id, title, tee, field, date } = props;
-    const [message, setMessage] = useState("");
+    const currentUserId = useSelector((state) => state.userInfoFeature.userId);
+    const currentUserNickname = useSelector((state) => state.userInfoFeature.userNickname);
+    const currentUserImage = useSelector((state) => state.userInfoFeature.userImage);
 
-    // 채팅 내역 (id를 통해 받아오는 정보)
-    const chatContents = [
-        {
-            pic: "1",
-            userId: "1234",
-            nickname: "함싸피",
-            message: "야 뭐해?",
-            time: "2023-08-02 13시 11분",
-        },
-        {
-            pic: "2",
-            userId: "1237",
-            nickname: "사용자1237",
-            message: "오늘 날씨가 좋네요.",
-            time: "2023-08-02 13시 15분",
-        },
-        {
-            pic: "3",
-            userId: "9999",
-            nickname: "봇봇봇",
-            message: "안녕하세요!",
-            time: "2023-08-02 13시 20분",
-        },
-        {
-            pic: "1",
-            userId: "1234",
-            nickname: "함싸피",
-            message: "뭐하고 놀까요?",
-            time: "2023-08-02 13시 25분",
-        },
-        {
-            pic: "2",
-            userId: "1237",
-            nickname: "사용자1237",
-            message: "식사는 하셨나요?",
-            time: "2023-08-02 13시 30분",
-        },
-        {
-            pic: "3",
-            userId: "9999",
-            nickname: "봇봇봇",
-            message: "네, 식사는 했습니다.",
-            time: "2023-08-02 13시 35분",
-        },
-        {
-            pic: "1",
-            userId: "1234",
-            nickname: "함싸피",
-            message: "무엇을 도와드릴까요?",
-            time: "2023-08-02 13시 40분",
-        },
-        {
-            pic: "2",
-            userId: "1237",
-            nickname: "사용자1237",
-            message: "오늘은 무슨 계획이 있나요?",
-            time: "2023-08-02 13시 45분",
-        },
-        {
-            pic: "3",
-            userId: "9999",
-            nickname: "봇봇봇",
-            message: "저는 항상 여러분과 대화를 즐기고 있어요.",
-            time: "2023-08-02 13시 50분",
-        },
-        {
-            pic: "1",
-            userId: "1234",
-            nickname: "함싸피",
-            message: "좋아요! 그럼 이제 무엇을 할까요?",
-            time: "2023-08-02 13시 55분",
-        },
-    ];
+    // 서버에서 반환하는 값 그대로 받은 props 요소 분리
+    const { field, id, memberId, memberNickname, teeBox, teeUptime, title } = props;
 
-    // 사용자(지금 로그인 한 사람)의 ID
-    const currentUserId = "1234";
+    const [chatMessages, setChatMessages] = useState([]);
+    const [messageInput, setMessageInput] = useState("");
+    const [stompClient, setStompClient] = useState(null);
 
-    // 메시지 입력 감지
-    const handleMessage = (e) => {
-        setMessage(e.target.value);
+    // AccessToken (Redux)
+    const accessToken = useSelector((state) => state.userInfoFeature.userAccessToken);
+    // Header (AccessToken)
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+
+    // 이미지 파일 경로를 객체로 관리
+    const teeMap = {
+        RED: flagred,
+        WHITE: flagwhite,
+        BLACK: flagblack,
+        NONE: flagall,
+    };
+
+    // 한라연 ...
+
+    useEffect(() => {
+        const socket = new SockJS(process.env.REACT_APP_SERVER_URL + '/companion-ws');
+        const stompClient = Stomp.over(socket, {
+        protocols: ['v12.stomp', 'v11.stomp']
+        });
+
+        stompClient.connect((frame) => {
+            setStompClient(stompClient);
+
+            console.log("들어옴"); //
+
+            axios.get(process.env.REACT_APP_SERVER_URL + `/api/companion/chat/${id}`)
+                .then(response => {
+                    setChatMessages(response.data);
+
+                    console.log("?");
+                    console.log(response.data);
+                });
+        });
+
+        return () => {
+            if (stompClient) {
+                stompClient.disconnect();
+            }
+        };
+    }, [id]);
+
+    useEffect(() => {
+        if (stompClient) {
+            const subscription = stompClient.subscribe(`/sub/chat/` + id, response => {
+                const message = JSON.parse(response.body);
+                setChatMessages((prevChatMessages) => [...prevChatMessages, message]);
+            });
+
+            return () => {
+                subscription.unsubscribe();
+            };
+        }
+    }, [stompClient]);
+
+    const handleSendMessage = () => {
+        if (!stompClient || !messageInput) {
+            return;
+        }
+
+        const newMessage = {
+            type: 'CHAT',
+            content: messageInput,
+            memberId: currentUserId,
+            memberNickname: currentUserNickname,
+            memberImage: currentUserImage,
+            companionId: id
+        };
+
+        stompClient.send('/pub/chat', { Authorization: `${accessToken}` }, JSON.stringify(newMessage));
+        setMessageInput('');
     }
 
-    // 메시지 전송
-    const sendMessage = () => {
-        console.log("전송할 메시지: ", message);
-    }
+    const dateFormat = (input) => {
+        if (input == null) {
+            return;
+        }
+
+        const date = new Date(input);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+
+        return (hours < 13 ? `오전` : `오후`) + ` ${hours % 12 == 0 ? 12 : hours % 12}:${String(minutes).padStart(2, "0")}`;
+    };
+
+    // title={chatRoomData.title}
+    // teeBox={chatRoomData.teeBox}
+    // field={chatRoomData.field}
+    // teeUpTime={chatRoomData.teeUptime}
 
     return (
         <div className="ChatRoom">
             <div id="room-header">
                 {/* 티박스 이미지 출력 문제 해결 필요 */}
-                <div id="room-title">{title} 방 </div>
-                <div id="room-tee">{tee}</div>
-                <div id="room-field">{field}</div>
-                <div id="room-date">{date}</div>
+                <div id="room-title">{title}</div>
+                <div id="room-tee">
+                    <img className="listroom-tee" src={teeMap[teeBox]} alt="tee" />
+                </div>
+                <div id="room-field">{getNameById(field)}</div>
+                <div id="room-date">{teeUptime}</div>
             </div>
             <div id="room-text">
-                {chatContents.map((chatContent, index) => (
-                    chatContent.userId === currentUserId ? (
-                        <MyChatBox key={index} props={chatContent} />
+                {chatMessages.map((chatMessage, index) => (
+                    chatMessage.memberId === currentUserId ? (
+                        <MyChatBox key={index} props={chatMessage} dateFormat={dateFormat} />
                     ) : (
-                        <OtherChatBox key={index} props={chatContent} />
+                        <OtherChatBox key={index} props={chatMessage} dateFormat={dateFormat} />
                     )
                 ))}
             </div>
             <div id="room-footer">
                 <input
                     id="message"
-                    defaultValue={message}
-                    onChange={handleMessage}
-                    placeholder="메시지를 입력하세요."
-                />
-                <button id="icon-div" onClick={sendMessage}>
+                    className="chat-footer-input"
+                    value={messageInput}
+                    onChange={e => setMessageInput(e.target.value)}
+                    placeholder="메시지를 입력하세요." />
+                <button
+                    id="icon-div"
+                    className="chat-footer-button"
+                    onClick={handleSendMessage}>
                     <h1>
                         <IoSendSharp />
                     </h1>

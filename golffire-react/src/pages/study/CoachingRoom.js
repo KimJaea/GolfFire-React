@@ -1,50 +1,75 @@
-import React, { useEffect } from 'react'
-import "./study.css";
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import VideoRoomComponent from "../../openvidu/VideoRoomComponent";
+
+import axios from 'axios';
+
+// Redux
+import { useSelector } from "react-redux";
 
 function CoachingRoom() {
-  useEffect(() => {
-    // 스크롤 방지
-    document.body.style.overflow = 'hidden';
-    // 컴포넌트 언마운트 시 스크롤 다시 활성화
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, []);
-  
-  const CopyUrl = () => {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-      alert("URL이 복사되었습니다")
-    });
+  // 사용자 정보(userId)로 axios 수행
+  const userId = useSelector((state) => state.userInfoFeature.userId);
+  const accessToken = useSelector((state) => state.userInfoFeature.userAccessToken);
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  let type = '';
+  let study = null;
+  let studyUser = null;
+
+  const leaveRoom = () => {
+    console.log(studyUser.memberId + "님이" + study.id + "방을 떠났습니다.");
+    console.log(study);
+    console.log(studyUser);
+
+    // 방장이 나가는 경우
+    if (study.memberId == studyUser.memberId) {
+      console.log("방장이 나감");
+
+      axios.delete(process.env.REACT_APP_SERVER_URL + '/api/study/user/' + study.id + '/all')
+        .then((response) => {
+
+          console.log("모두 지우기:" , response);
+
+          axios.delete(process.env.REACT_APP_SERVER_URL + '/api/study/' + study.id)
+            .then((response) => {
+
+              console.log("스터디 지우기:", response);
+
+              navigate('/studylist');
+            });
+        }).catch((error) => {
+          console.log(error);
+        });
+    } else {
+      axios.delete(process.env.REACT_APP_SERVER_URL + '/api/study/user/' + study.id)
+        .then((response) => {
+          navigate('/studylist');
+        });
+    }
   };
 
+  if (location.state) {
+    type = location.state.type;
+    study = location.state.study;
+    studyUser = location.state.studyUser;
+
+    console.log("코칭룸");
+    console.log("Type:", type);
+    console.log("Study:", study);
+    console.log("StudyUser:", studyUser);
+  } else {
+    console.log("코칭룸 정보가 존재하지 않습니다.");
+  }
 
   return (
-    <div className="coachingroom-container">
-      <div className="box-head">
-        <div className="box-roomtype">
-          <span className="typename">코칭</span>
-        </div>
-        방 제목
-        <div className="copy-url" onClick={CopyUrl}></div>
-      </div>
-      <div className="box-body">
-        <div className="grid-item item1">
-          {/* 러닝룸에서 포함 시킬 것. <div className="coachcam">코치</div> */ }
-          <div className="mycam">나</div>
-        </div>
-        <div className="grid-item item2">
-          <div className="box-splide">나는 카로셀</div>
-          <div className="box-mainrtc">나는 화면공유</div>
-          <div className="box-art">나는 그림판</div>
-        </div>
-        <div className="grid-item item3">
-          <div className="box-chatview">나는 채팅방</div>
-          <div className="box-chatinput">나는 채팅 입력창</div>
-        </div>
-      </div>
+    <div>
+      <VideoRoomComponent type={type} study={study} studyUser={studyUser} leaveRoom={leaveRoom}/>
     </div>
-  )
+  );
 }
 
-export default CoachingRoom
+export default CoachingRoom;

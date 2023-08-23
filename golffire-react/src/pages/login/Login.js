@@ -1,222 +1,122 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 
-import axios from "axios";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import Interceptor from "../../setup/user-auth/Interceptor";
 
-// Style
-<<<<<<< HEAD
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-} from "@chakra-ui/react";
-=======
-import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
+import BackgroundImage from "../../assets/source/imgs/golf-image-1.svg";
+import { IoMailOutline, IoChatbubbleSharp } from "react-icons/io5";
 import "./Login.css";
-import golfImage from "../../assets/source/icons/golf.png";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-<<<<<<< HEAD
-  const [setCookie] = useCookies(["refreshToken"]);
-=======
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
-  const navigate = useNavigate();
+
+  const [checkToken, setCheckToken] = useState(0);
+  const [doLogin, setDoLogin] = useState(0);
+  const [doLogout, setDoLogout] = useState(0);
 
   // 이메일 로그인 함수
   const handleEmailLogin = () => {
+    if (email === "") {
+      alert("이메일을 입력해 주세요.");
+      return;
+    } else if (password === "") {
+      alert("비밀번호를 입력해 주세요.");
+      return;
+    }
+
     // 로그인 정보
     const data = {
-<<<<<<< HEAD
       id: email,
       password: password,
-      isKakao: false
-=======
-      memberId: email,
-      password: password,
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
+      isKakao: false,
     };
 
-    // 서버 API 엔드포인트 URL
-    // 추후 실제 서버 URL로 대체 필요 !!
-    const apiUrl = "http://localhost:8080/members/sign-in";
-
-    // Axios를 사용하여 POST 요청 보내기
-    axios
-      .post(apiUrl, data)
-      .then((response) => {
-        // 서버로부터 받은 정보
-        const access_token = response.data.data.token.accessToken;
-        const refresh_token = response.data.data.token.refreshToken;
-
-        // header에 accesstoken 저장
-        axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
-
-        // 쿠키에 정보 저장
-<<<<<<< HEAD
-        setCookie('refreshToken', refresh_token, { path: '/' , maxAge: new Date().getDate() + 60 * 60 * 24 *14 });
-
-=======
-        setCookie("user_email", data.memberId, { path: "/" });
-        setCookie("access_token", access_token, { path: "/" });
-        setCookie("refresh_token", refresh_token, { path: "/" });
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
-
-        console.log(response.data); // Debug Code !!
-
-        // 로그인 성공 후 Main으로 복귀
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Error:", error); // Debug Code !!
-
-        // 로그인 실패를 화면에 표시하는 코드 필요 !!
-<<<<<<< HEAD
-=======
-        navigate("/error");
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
-      });
+    // 로그인 정보로 Interceptor의 로그인 함수 실행
+    setDoLogin(data);
   };
 
   const handleKakaoLogin = () => {
     console.log("카카오 로그인 시도"); // Debug Code !!
-<<<<<<< HEAD
-=======
 
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
     const REST_API_KEY = "cd0c9cf0cf49dae9a987aebb769ee0d6";
-    const REDIRECT_URI = "http://localhost:3000/auth/kakao/login/callback";
+    const REDIRECT_URI = process.env.REACT_APP_SERVER_URL + "/auth/kakao/login/callback";
     const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
     window.location.href = kakaoUrl;
   };
 
   return (
     <div id="Login">
-<<<<<<< HEAD
 
-=======
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
-      {/* 그림 공간 */}
-      <div id="login-banner">
-        <div id="login-banner-context">
-          <div id="banner-letter">
-            동료들이 당신을
-            <br />
-            기다리고 있어요!
+      <div className="user-container">
+        <div className="user-banner">
+          <div className="user-banner-title">
+            동료들이<br />기다리고 있어요!
+          </div>
+          <div className="user-banner-img">
+            <img className="user-banner-img-style" src={BackgroundImage} alt="golf-mascot-image" />
           </div>
         </div>
-        <div id="login-banner-image">
-          <img src={golfImage} alt="banner-golf-icon" />
-        </div>
-      </div>
-
-      {/* 기능 공간 */}
-      <div id="login-func">
-        <div id="login-box">
-<<<<<<< HEAD
-          <div id="box-title">
+        <div className="user-func">
+          <div className="user-func-title">
             로그인
           </div>
-          <div id="box-content">
-            <FormControl maxW={'sm'}>
-=======
-          <div id="box-title">로그인</div>
-          <div id="box-content">
-            <FormControl maxW={"sm"}>
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
-              <FormLabel>이메일</FormLabel>
-              <Input
-                type="email"
-                placeholder="이메일을 입력하세요."
-                bg={"white"}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </FormControl>
-<<<<<<< HEAD
-            <FormControl maxW={'sm'} paddingTop={'2%'}>
-=======
-            <FormControl maxW={"sm"} paddingTop={"2%"}>
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
-              <FormLabel>비밀번호</FormLabel>
-              <Input
-                type="password"
-                placeholder="비밀번호를 입력하세요."
-                bg={"white"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </FormControl>
-          </div>
-          <div id="box-button">
-            <Button
-              onClick={handleEmailLogin}
-              style={{
-                height: "2.5rem",
-                width: "100%",
-
-                color: "black",
-                borderRadius: "30px",
-                background: "#B8F500",
-              }}
-<<<<<<< HEAD
-              maxW={'sm'}
-              marginBottom={'2.5rem'}
-            > 로그인</Button>
-=======
-              maxW={"sm"}
-              marginBottom={"2.5rem"}
-            >
-              {" "}
-              로그인
-            </Button>
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
-
-            <Button
-              onClick={handleKakaoLogin}
-              style={{
-                height: "2.5rem",
-                width: "100%",
-
-                color: "black",
-                borderRadius: "30px",
-                background: "#FFF500",
-              }}
-<<<<<<< HEAD
-              maxW={'sm'}
-              marginBottom={'2.5rem'}
-            > 카카오톡으로 로그인하기</Button>
-
-          </div>
-          <div id="box-footer">
-            <NavLink to="/findpassword" >비밀번호 찾기</NavLink>
-=======
-              maxW={"sm"}
-              marginBottom={"2.5rem"}
-            >
-              {" "}
-              카카오톡으로 로그인하기
-            </Button>
-          </div>
-          <div id="box-footer">
-            <NavLink to="/findpassword">비밀번호 찾기</NavLink>
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
-            <br />
-            <NavLink to="/signup">회원가입 하기</NavLink>
+          <input
+            className="user-func-normal-input"
+            type="email"
+            value={email}
+            placeholder="이메일"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            className="user-func-normal-input"
+            type="password"
+            value={password}
+            placeholder="비밀번호"
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleEmailLogin();
+              }
+            }}
+          />
+          <button
+            className="user-func-email-login"
+            onClick={handleEmailLogin} >
+            <IoMailOutline className="button-react-icon" />
+            <div className="user-button-text">로그인하기</div>
+          </button>
+          <button
+            className="user-func-kakao-login"
+            onClick={handleKakaoLogin} >
+            <IoChatbubbleSharp className="button-react-icon" />
+            <div className="user-button-text">카카오톡으로 로그인</div>
+          </button>
+          <hr className="user-hr" />
+          <div className="user-func-footer">
+            <NavLink to="/findpassword">
+              <div className="user-func-footer-half">비밀번호 찾기</div>
+            </NavLink>
+            <NavLink to="/signup">
+              <div className="user-func-footer-half">회원가입하기</div>
+            </NavLink>
           </div>
         </div>
-      </div>
-<<<<<<< HEAD
 
-    </div >
-=======
+        {/* 배경 및 모양 관련 div */}
+        <div className="user-container-bump"></div>
+      </div>
+      <div className="user-container-shadow">
+        <div className="user-container-shadow-bump"></div>
+      </div>
+
+      <Interceptor
+        checkToken={checkToken}
+        doLogin={doLogin}
+        doLogout={doLogout}
+      />
+      
     </div>
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
   );
 };
 

@@ -1,273 +1,170 @@
-import { React, useState } from "react";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
-
-<<<<<<< HEAD
-// Redux
-import { useSelector, useDispatch } from "react-redux";
-import { setStateStep } from "../../features/signupSlice";
-
-import { Button, FormControl, FormLabel, Input, Radio, RadioGroup, VStack } from "@chakra-ui/react";
-import { EmailIcon } from "@chakra-ui/icons";
+import { React, useEffect, useState } from "react";
 import axios from "axios";
 
-const SignupInfo = () => {
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setStateStep,
+  setStateNickname,
+} from "../../features/signupSlice";
+
+import flagred from '../../assets/source/icons/flag-red.png';
+import flagwhite from '../../assets/source/icons/flag-white.png';
+import flagblack from '../../assets/source/icons/flag-black.png';
+import flagall from '../../assets/source/icons/flag-all.png';
+
+import { Button, FormControl, FormLabel, Input, Radio, RadioGroup, VStack } from "@chakra-ui/react";
+import { AiOutlineInfoCircle } from "react-icons/ai";
+import { setUserNickname } from "../../features/userInfoSlice";
+
+const SignupInfo = ({ setStateIntroduce, setStateAverageScore, setStateTopScore, setStateTeeBox }) => {
   // Redux
   const dispatch = useDispatch();
   const state = useSelector((state) => state.signupFeature);
-  // const { state } = useLocation();
-  const [image, setImage] = useState("../../assets/source/icons/no-image.png");
-  const [password] = useState(state.password);
+
+  // const { state } = useLocation();  const [password] = useState(state.password);
   const [introduce, setIntroduce] = useState("");
-  const [selectedOption, setSelectedOption] = useState(null);
   const [email, setEmail] = useState(state.email);
   const [nickname, setNickname] = useState(state.nickname);
   const [averageScore, setAverageScore] = useState(state.averageScore);
   const [topScore, setTopScore] = useState(state.topScore);
   const [teeBox, setTeeBox] = useState(state.teeBox);
-  const [isKakao, setIsKakao] = useState(state.isKakao);
-  const handleOptionChange = (value) => {
-    console.log("value", value);
-    onchange = (e) => setTeeBox(e.target.value);
-    console.log("selectedOption", teeBox);
-=======
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Radio,
-  RadioGroup,
-  VStack
-} from "@chakra-ui/react";
-import {
-  EmailIcon
-} from "@chakra-ui/icons";
-
-const SignupInfo = () => {
-  const { state } = useLocation();
-
-  const [image, setImage] = useState(state.image);
-  const [email, setEmail] = useState(state.email);
-  const [password] = useState(state.password);
-  const [nickname, setNickname] = useState(state.nickname);
-  const [introduce, setIntroduce] = useState("");
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const handleOptionChange = (value) => {
-    setSelectedOption(value);
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
-  };
 
   // 닉네임 중복 검사
   const handleCheckNickname = () => {
     console.log("nickname: ", nickname); // Debug !!
-<<<<<<< HEAD
     const data = {
       nickname: nickname,
     };
-    const apiUrl = "http://localhost:8080/members/checkNickname";
+    const apiUrl = process.env.REACT_APP_SERVER_URL + "/api/members/checkNickname";
     axios
       .post(apiUrl, data)
       .then((response) => {
+        console.log("닉넴 체크 함, ", response);
         if (response.data.data.resultMessage === "FAIL") {
           console.log("닉네임이 중복되었습니다.");
           alert("이미 존재하는 닉네임입니다.");
         } else {
           console.log("유효한 닉네임입니다.");
+          dispatch(setStateNickname(nickname));
         }
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
-=======
+
+  // 자기소개 함수
+  const handleIntroduction = (e) => {
+    const introduceText = e.target.value;
+    setIntroduce(introduceText);
+    setStateIntroduce(introduceText);
   }
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
 
-  const navigate = useNavigate();
-
-  const handleEmailFinish = () => {
-<<<<<<< HEAD
-    var referrer = document.referrer;
-
-    console.log("이전 페이지 URL: " + referrer);
-    setIsKakao(isKakao);
-    console.log(isKakao);
-    let level = "";
-    if (averageScore <= 60) {
-      level = "이글 플레이어";
-    } else if (averageScore <= 70) {
-      level = "버디 플레이어";
-    } else if (averageScore <= 80) {
-      level = "파 플레이어";
-    } else if (averageScore <= 90) {
-      level = "보기 플레이어";
-    } else {
-      level = "더블 플레이어";
+  // 최고 타수 함수
+  const handleTopScoreChange = (e) => {
+    const newValue = e.target.value;
+    if (!isNaN(newValue) && newValue >= 0 && newValue <= 144) {
+      setTopScore(newValue);
+      setStateTopScore(newValue);
     }
-=======
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
-    const data = {
-      id: email,
-      image: image,
-      password: password,
-      nickname: nickname,
-<<<<<<< HEAD
-      introduction: introduce,
-      averageScore: averageScore,
-      topScore: topScore,
-      level: level,
-      teeBox: teeBox,
-      isKakao: isKakao,
-    };
-    console.log("isKakao: ", isKakao);
-    const apiUrl = "http://localhost:8080/members/sign-up";
-    axios
-      .post(apiUrl, data)
-      .then((response) => {
-        console.log(response);
-        console.log(response.data.data.id);
-        navigate("/Login");
-      })
-      .catch((error) => {
-        console.error("Error: ", error);
-      });
-
-    console.log("data: ", data);
-    // navigate("/");
-  };
-=======
-      introduce: introduce,
-      // averageScore: averageScore,
-      // topScore: topScore,
-      // level: level,
-      // teeBox: teeBox,
-      isKakao: false,
-    }
-
-
-    console.log("data: ", data);
-    // navigate("/");
   }
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
+
+  // 평균 타수 함수
+  const handleAverageScoreChange = (e) => {
+    const newValue = e.target.value;
+    if (!isNaN(newValue) && newValue >= 0 && newValue <= 144) {
+      setAverageScore(newValue);
+      setStateAverageScore(newValue);
+    }
+  }
+
+  // 티 박스 함수
+  const handleTeeBox = (e) => {
+    setStateTeeBox(teeBox);
+    console.log("티박스 셀렉 됨", teeBox);
+  }
 
   return (
-    <div id="Signup">
-      <div className="signup-info">
-        <div className="signup-title">
-          <h1>
-            정보 입력
-            <br />
-            자신을 소개하는 정보를 입력하세요.
-          </h1>
-        </div>
-        <div className="signup-pic">(사진 공간)</div>
-        <div className="signup-info-body">
-          <FormControl maxW={"sm"}>
-            <FormLabel>이메일</FormLabel>
-            <Input
-              type="email"
-              bg={"white"}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            {/* 사용 가능 여부를 나타내는 안내 문구 필요! */}
-          </FormControl>
-
-          <FormControl maxW={"sm"}>
-            <FormLabel>닉네임</FormLabel>
-<<<<<<< HEAD
-            <Input bg={"white"} value={nickname} onChange={(e) => setNickname(e.target.value)} />
-=======
-            <Input
-              bg={"white"}
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-            />
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
-            {/* 사용 가능 여부를 나타내는 안내 문구 필요! */}
-          </FormControl>
-          <Button
-            onClick={handleCheckNickname}
-            style={{
-              height: "2.5rem",
-              width: "100%",
-
-              color: "black",
-              borderRadius: "30px",
-              background: "#B8F500",
-            }}
-            maxW={"sm"}
-            marginBottom={"2.5rem"}
-          >
-            검사
-          </Button>
-
-          <FormControl maxW={"sm"}>
-            <FormLabel>자기소개</FormLabel>
-            <Input
-              placeholder="자기소개를 입력하세요."
-              bg={"white"}
-              value={introduce}
-              onChange={(e) => setIntroduce(e.target.value)}
-            />
-            {/* 입력 제한 안내 문구 필요! */}
-          </FormControl>
-
-          <FormControl maxW={"sm"}>
-            <FormLabel>최고타수</FormLabel>
-<<<<<<< HEAD
-            <Input
-              placeholder="0"
-              bg={"white"}
-              value={topScore}
-              onChange={(e) => setTopScore(e.target.value)}
-            />
-            <FormLabel>평균타수</FormLabel>
-            <Input
-              placeholder="0"
-              bg={"white"}
-              value={averageScore}
-              onChange={(e) => setAverageScore(e.target.value)}
-            />
-=======
-            <Input placeholder="0" bg={"white"} />
-            <FormLabel>평균타수</FormLabel>
-            <Input placeholder="0" bg={"white"} />
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
-          </FormControl>
-
-          <RadioGroup value={selectedOption} onChange={handleOptionChange}>
-            <VStack spacing={4}>
-<<<<<<< HEAD
-              <Radio value="RED">레드티박스 - 여성</Radio>
-              <Radio value="WHITE">화이트티박스 - 남성</Radio>
-              <Radio value="BLACK">블랙티박스 - 프로</Radio>
-              <Radio value="NONE">상관없음 - 비공개</Radio>
-=======
-              <Radio value="option1">레드티박스 - 여성</Radio>
-              <Radio value="option2">화이트티박스 - 남성</Radio>
-              <Radio value="option3">블랙티박스 - 프로</Radio>
->>>>>>> ac0cb2b0be79d226cd64bbb034465202d4c26da4
-            </VStack>
-          </RadioGroup>
-        </div>
-        <Button
-          onClick={handleEmailFinish}
-          style={{
-            height: "2.5rem",
-            width: "100%",
-
-            color: "black",
-            borderRadius: "30px",
-            background: "#B8F500",
-          }}
-          maxW={"sm"}
-          marginBottom={"2.5rem"}
-        >
-          회원가입 완료하기
-        </Button>
+    <div id="SignupInfo">
+      <div className="user-func-context">
+        자신을 소개하는 정보를 입력하세요
       </div>
+
+      <input
+        type="email"
+        defaultValue={email}
+        aria-readonly
+        className="user-func-normal-input" />
+      <div className="user-email-auth-block">
+        <input
+          value={nickname}
+          placeholder="닉네임"
+          className="user-email-auth-input"
+          onChange={(e) => setNickname(e.target.value)} />
+        <button className="user-email-auth-button gr"
+          onClick={handleCheckNickname}>
+          검사
+        </button>
+      </div>
+      <input
+        value={introduce}
+        placeholder="자기소개"
+        className="user-func-normal-input"
+        onChange={handleIntroduction}
+      />
+
+      <div className="user-func-box">
+        <div className="user-func-half">
+          <label className="user-func-label">최고 타수</label>
+          <input
+            type="number"
+            value={topScore}
+            className="user-func-half-input"
+            onChange={handleTopScoreChange} />
+        </div>
+        <div className="user-func-half">
+          <label className="user-func-label">평균 타수</label>
+          <input
+            type="number"
+            value={averageScore}
+            className="user-func-half-input"
+            onChange={handleAverageScoreChange} />
+        </div>
+      </div>
+
+      <div className="user-func-radio">
+        <div className="user-func-label">
+          선호 티 박스
+
+          <div className="tee-tooltip">
+            <AiOutlineInfoCircle className="tee-tooltip-icon" />
+            <span className="tee-tooltip-text">
+              레이디 티(레드 티): 여성이나 어린이를 위한 티 박스로 홀 과의 거리가 가장 짧은 티 박스입니다.<br />
+              레귤러 티(화이트 티): 일반 남성, 여성 상급자, 여성 프로, 청소년 선수 들을 위한 티 박스로 레드 티보다 홀 과의 거리가 멉니다.<br />
+              블랙 티: 몇몇 골프장은 블루 티보다 거리가 먼 블랙 티 박스가 있습니다. 상급자 남성, 프로 선수들이 플레이 합니다.<br />
+              출처: <a className="clickable" href="http://www.golifekorea.com" target="_blank">고라이프코리아</a>
+            </span>
+          </div>
+
+        </div>
+        <div className="user-func-radio-block"
+          onChange={handleTeeBox}>
+          <img src={flagred} alt="레드 티 박스"
+            onClick={() => setTeeBox('flagred')}
+            className={`option-tee-img${teeBox === 'flagred' ? '-selected' : ''}`} />
+          <img src={flagwhite} alt="화이트 티 박스"
+            onClick={() => setTeeBox('flagwhite')}
+            className={`option-tee-img${teeBox === 'flagwhite' ? '-selected' : ''}`} />
+          <img src={flagblack} alt="블랙 티 박스"
+            onClick={() => setTeeBox('flagblack')}
+            className={`option-tee-img${teeBox === 'flagblack' ? '-selected' : ''}`} />
+          <img src={flagall} alt="모든 티 박스"
+            onClick={() => setTeeBox('flagall')}
+            className={`option-tee-img${teeBox === 'flagall' ? '-selected' : ''}`} />
+        </div>
+      </div>
+
     </div>
   );
 };
